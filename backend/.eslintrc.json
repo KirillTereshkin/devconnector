@@ -10,5 +10,11 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "prettier"],
-  "rules": {}
+  "rules": {
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "no-unused-vars": "off",
+    "import/prefer-default-export": "off",
+    "no-shadow": "off"
+  }
 }
