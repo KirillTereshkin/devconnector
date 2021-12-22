@@ -1,4 +1,6 @@
 import { ValidationError } from "express-validator";
+import { sign, SignOptions } from "jsonwebtoken";
+import config from "../config";
 import { ErrorType } from "../types/Utility";
 
 export const createError = (errors: string | ValidationError[]): ErrorType => {
@@ -8,3 +10,10 @@ export const createError = (errors: string | ValidationError[]): ErrorType => {
 
   return { errors };
 };
+
+export const generateToken = (
+  userId: string,
+  signOptions: SignOptions = {
+    expiresIn: "10h",
+  }
+) => sign({ userId }, config.tokenPrivateKey, signOptions);

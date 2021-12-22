@@ -1,8 +1,6 @@
 import { hash } from "bcrypt";
 import { Router } from "express";
-import { sign } from "jsonwebtoken";
-import config from "../config";
-import UserModel, { User } from "../model/Users";
+import UserModel from "../model/Users";
 import { saltRounds } from "../services/constants";
 import Errors from "../services/errorMessages";
 import {
@@ -11,6 +9,8 @@ import {
   passwordValidator,
 } from "../services/validators";
 import { validationMiddleware } from "../services/middlewares";
+import { generateToken } from "../services/helpers";
+import User from "../types/Model/Users";
 
 const usersRouter = Router();
 
@@ -40,9 +40,7 @@ usersRouter.post(
 
       const savedUser = await user.save();
 
-      const token = sign({ user: savedUser.id }, config.tokenProvateKey, {
-        expiresIn: "10h",
-      });
+      const token = generateToken(savedUser.id);
 
       res.json({ token });
     } catch (error) {

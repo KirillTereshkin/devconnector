@@ -1,6 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response, Request } from "express";
 import { validationResult } from "express-validator";
 import { verify } from "jsonwebtoken";
+import { ObjectId } from "mongoose";
 import config from "../config";
 import UserModel from "../model/Users";
 import { RequestAuth } from "../types/Utility";
@@ -21,7 +22,7 @@ export const validationMiddleware = (
   next();
 };
 
-export const authMiddlewares = async (
+export const authMiddleware = (
   req: RequestAuth,
   res: Response,
   next: NextFunction
@@ -34,8 +35,8 @@ export const authMiddlewares = async (
   }
 
   try {
-    const payload = verify(token, config.tokenProvateKey) as
-      | { user: string }
+    const payload = verify(token, config.tokenPrivateKey) as
+      | { userId: ObjectId }
       | string;
 
     if (typeof payload === "string") {
@@ -43,14 +44,7 @@ export const authMiddlewares = async (
       return;
     }
 
-    const user = await UserModel.findById(payload.user);
-
-    if (!user) {
-      res.status(400).json(Errors.userNotExist);
-      return;
-    }
-
-    req.userId = payload.user;
+    req.userId = payload.userId;
     next();
   } catch (error) {
     res.status(500).json(Errors.incorrectToken);

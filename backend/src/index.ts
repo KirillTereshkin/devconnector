@@ -13,6 +13,7 @@ app.use(json());
 // Add routes
 app.use(AppRoutes.users, router.users);
 app.use(AppRoutes.auth, router.auth);
+app.use(AppRoutes.profile, router.profile);
 
 // Start app
 const PORT = process.env.PORT || 4000;
