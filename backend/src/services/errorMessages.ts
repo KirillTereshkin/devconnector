@@ -7,6 +7,7 @@ const ErrorMessages = {
   notAuthorized: "You are not authorized, please login",
   userNotExist: "User doesn't exist",
   profileNotExist: "Profile doesn't exist",
+  profileAlreadyExist: "Profile already exist",
   incorrectToken: "The token is incorrect",
   incorrectCredentials: "Email or password are incorrect",
   serverError: "Ooops... Something went wrong",

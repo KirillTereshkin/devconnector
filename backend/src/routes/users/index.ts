@@ -1,16 +1,11 @@
 import { hash } from "bcrypt";
 import { Router } from "express";
-import UserModel from "../model/Users";
-import { saltRounds } from "../services/constants";
-import Errors from "../services/errorMessages";
-import {
-  emailValidator,
-  nameValidator,
-  passwordValidator,
-} from "../services/validators";
-import { validationMiddleware } from "../services/middlewares";
-import { generateToken } from "../services/helpers";
-import User from "../types/Model/Users";
+import UserModel from "../../model/users";
+import { saltRounds } from "../../services/constants";
+import Errors from "../../services/errorMessages";
+import { generateToken } from "../../services/helpers";
+import User from "../../types/Model/Users";
+import { registerUserValidator } from "./services/validators";
 
 const usersRouter = Router();
 
@@ -19,10 +14,7 @@ const usersRouter = Router();
 // @access          Public
 usersRouter.post(
   "/",
-  nameValidator(),
-  emailValidator(),
-  passwordValidator(),
-  validationMiddleware,
+  ...registerUserValidator,
   async (req, res): Promise<void> => {
     try {
       const userFromBody: User = req.body;
