@@ -1,7 +1,7 @@
 import exrpress, { json } from "express";
-import { AppRoutes } from "./types/Router";
+import { AppRoutes } from "./types/Api";
 import createDb from "./model";
-import router from "./routes";
+import router from "./api";
 
 // Initiate Db and express App
 createDb();

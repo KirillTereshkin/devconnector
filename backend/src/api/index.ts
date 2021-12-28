@@ -2,7 +2,7 @@ import { Router } from "express";
 import authRouter from "./auth";
 import usersRouter from "./users";
 import profileRouter from "./profile";
-import { AppRoutes } from "../types/Router";
+import { AppRoutes } from "../types/Api";
 
 const router: Record<keyof typeof AppRoutes, Router> = {
   auth: authRouter,
