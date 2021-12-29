@@ -1,9 +1,9 @@
-import { createValidationMiddleware } from "../../../services/middlewares";
+import { createValidationMiddleware } from "../../helpers/middlewares/validationMiddleware";
 import {
   nameValidator,
   emailValidator,
   passwordValidator,
-} from "../../../services/validators";
+} from "../../helpers/validators";
 
 export const registerUserValidator = createValidationMiddleware(
   nameValidator(),

@@ -1,11 +1,15 @@
 import { Router } from "express";
 import { ObjectId } from "mongoose";
 import ProfileModel from "../../model/profile";
-import Errors from "../../services/errorMessages";
-import { authMiddleware } from "../../services/middlewares";
-import { Profile } from "../../types/Model/Profile";
-import { RequestAuth } from "../../types/Utility";
-import { createProfileValidator } from "./services/validators";
+import Errors from "../../helpers/errorMessages";
+import { Profile } from "../../model/profile/services/types";
+import { RequestAuth } from "../../types/utility";
+import { authMiddleware } from "../../helpers/middlewares/authMiddleware";
+import { createProfileValidator } from "../../validators/profile";
+import ProfileService from "../../services/profile";
+import { errorResponseMiddleware } from "../../helpers/middlewares/errorResponseMiddleware";
+
+const profileService = new ProfileService();
 
 const profileRouter = Router();
 
@@ -16,12 +20,9 @@ profileRouter.get("/me", authMiddleware, async (req: RequestAuth, res) => {
   try {
     const { userId } = req;
 
-    const foundProfile = await ProfileModel.findOne({ user: userId }, "-_id");
+    const foundProfile = await   profileService.getProfileInfo(userId);
 
-    if (!foundProfile) {
-      res.status(400).json(Errors.profileNotExist);
-      return;
-    }
+    errorResponseMiddleware(foundProfile, res);
 
     res.json(foundProfile);
   } catch (error) {
@@ -38,21 +39,11 @@ profileRouter.post(
   authMiddleware,
   async (req: RequestAuth, res) => {
     try {
-      const { body, userId }: { body: Profile; userId?: ObjectId } = req;
+      const { userId, body }: { userId?: ObjectId; body: Profile } = req;
 
-      const foundProfile = await ProfileModel.findOne({ user: userId });
+      const savedProfile = await profileService.createProfile(body, userId);
 
-      if (foundProfile) {
-        res.status(400).json(Errors.profileAlreadyExist);
-        return;
-      }
-
-      const newProfile = new ProfileModel({
-        ...body,
-        user: userId,
-      });
-
-      const savedProfile = await newProfile.save();
+      errorResponseMiddleware(savedProfile, res);
 
       res.json(savedProfile);
     } catch (error) {
@@ -66,13 +57,9 @@ profileRouter.post(
 // @access          Private
 profileRouter.put("/", authMiddleware, async (req: RequestAuth, res) => {
   try {
-    const { body, userId }: { body: Profile; userId?: ObjectId } = req;
+    const { userId, body }: { userId?: ObjectId; body: Profile } = req;
 
-    const filter = { user: userId };
-
-    await ProfileModel.findOneAndUpdate(filter, body);
-
-    const updatedProfile = await ProfileModel.findOne(filter);
+    const updatedProfile = await profileService.updateProfile(body, userId);
 
     res.json(updatedProfile);
   } catch (error) {

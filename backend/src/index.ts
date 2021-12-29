@@ -1,7 +1,6 @@
 import exrpress, { json } from "express";
-import { AppRoutes } from "./types/Api";
-import createDb from "./model";
-import router from "./api";
+import createDb from "./model/services/createDb";
+import rootRouter from "./api";
 
 // Initiate Db and express App
 createDb();
@@ -11,9 +10,7 @@ const app = exrpress();
 app.use(json());
 
 // Add routes
-app.use(AppRoutes.users, router.users);
-app.use(AppRoutes.auth, router.auth);
-app.use(AppRoutes.profile, router.profile);
+app.use("/", rootRouter);
 
 // Start app
 const PORT = process.env.PORT || 4000;

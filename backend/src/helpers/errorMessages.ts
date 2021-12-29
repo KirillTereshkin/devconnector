@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { ErrorType } from "../types/Utility";
+import { ErrorsNames } from "../types/errors";
+import { ErrorType } from "../types/utility";
 import { createError } from "./helpers";
 
-const ErrorMessages = {
+const ErrorMessages: Record<ErrorsNames, string> = {
   userAlreadyExist: "User with such email already exist...",
   notAuthorized: "You are not authorized, please login",
   userNotExist: "User doesn't exist",
@@ -13,7 +14,7 @@ const ErrorMessages = {
   serverError: "Ooops... Something went wrong",
 };
 
-const Errors: Record<keyof typeof ErrorMessages, ErrorType> = Object.entries(
+const Errors: Record<ErrorsNames, ErrorType> = Object.entries(
   ErrorMessages
 ).reduce(
   (prevVal, [key, val]) => ({ ...prevVal, [key]: createError(val) }),

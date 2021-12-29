@@ -2,12 +2,12 @@ import { Router } from "express";
 import authRouter from "./auth";
 import usersRouter from "./users";
 import profileRouter from "./profile";
-import { AppRoutes } from "../types/Api";
+import { AppRoutes } from "../types/api";
 
-const router: Record<keyof typeof AppRoutes, Router> = {
-  auth: authRouter,
-  users: usersRouter,
-  profile: profileRouter,
-};
+const rootRouter = Router();
 
-export default router;
+rootRouter.use(AppRoutes.users, usersRouter);
+rootRouter.use(AppRoutes.auth, authRouter);
+rootRouter.use(AppRoutes.profile, profileRouter);
+
+export default rootRouter;

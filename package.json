@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "dev": "concurrently \"cd ./backend && npm run dev\""
+    "dev": "concurrently -c cyan -p [BACKEND] \"cd ./backend && npm run dev\""
   }
 }

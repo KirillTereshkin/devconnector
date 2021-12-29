@@ -1,11 +1,15 @@
 import { hash } from "bcrypt";
 import { Router } from "express";
 import UserModel from "../../model/users";
-import { saltRounds } from "../../services/constants";
-import Errors from "../../services/errorMessages";
-import { generateToken } from "../../services/helpers";
-import User from "../../types/Model/Users";
-import { registerUserValidator } from "./services/validators";
+import { saltRounds } from "../../helpers/constants";
+import Errors from "../../helpers/errorMessages";
+import { generateToken } from "../../helpers/helpers";
+import User from "../../model/users/services/types";
+import { registerUserValidator } from "../../validators/users";
+import UsersService from "../../services/users";
+import { errorResponseMiddleware } from "../../helpers/middlewares/errorResponseMiddleware";
+
+const usersService = new UsersService();
 
 const usersRouter = Router();
 
@@ -17,22 +21,11 @@ usersRouter.post(
   ...registerUserValidator,
   async (req, res): Promise<void> => {
     try {
-      const userFromBody: User = req.body;
+      const user: User = req.body;
 
-      const userFromDb = await UserModel.findOne({ email: userFromBody.email });
+      const token = await usersService.registerUser(user);
 
-      if (userFromDb) {
-        res.status(400).json(Errors.userAlreadyExist);
-        return;
-      }
-
-      userFromBody.password = await hash(userFromBody.password, saltRounds);
-
-      const user = new UserModel(userFromBody);
-
-      const savedUser = await user.save();
-
-      const token = generateToken(savedUser.id);
+      errorResponseMiddleware(token, res);
 
       res.json({ token });
     } catch (error) {

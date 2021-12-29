@@ -1,26 +1,9 @@
-import { NextFunction, Response, Request } from "express";
-import { ValidationChain, validationResult } from "express-validator";
+import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 import { ObjectId } from "mongoose";
-import config from "../config";
-import { RequestAuth } from "../types/Utility";
-import Errors from "./errorMessages";
-
-export const createValidationMiddleware = (
-  ...validators: ValidationChain[]
-) => [
-  ...validators,
-  (req: Request, res: Response, next: NextFunction): void => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.status(400).json(errors.array());
-      return;
-    }
-
-    next();
-  },
-];
+import config from "../../config";
+import { RequestAuth } from "../../types/utility";
+import Errors from "../errorMessages";
 
 export const authMiddleware = (
   req: RequestAuth,
