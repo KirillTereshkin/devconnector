@@ -1,40 +1,8 @@
-import { compare } from "bcrypt";
-import { ObjectId } from "mongoose";
-import { generateToken } from "../../helpers/helpers";
-import UserModel from "../../model/users";
-import User from "../../model/users/services/types";
-import { ErrorsNames } from "../../types/errors";
+import AuthDBService from "./services/dbService";
+import AuthRoutingService from "./services/routingService";
 
-class AuthService {
-  getUserInfo = async (userId?: ObjectId): Promise<User | ErrorsNames> => {
-    const user = await UserModel.findById(userId).select("-password");
+const authDbService = new AuthDBService();
 
-    if (!user) {
-      return "userNotExist";
-    }
+const authRoutingService = new AuthRoutingService(authDbService);
 
-    return user;
-  };
-
-  authUser = async (
-    email: string,
-    password: string
-  ): Promise<string | ErrorsNames> => {
-    const foundUser = await UserModel.findOne({ email });
-    if (!foundUser) {
-      return "incorrectCredentials";
-    }
-
-    const isPasswordCorrect = await compare(password, foundUser.password);
-
-    if (!isPasswordCorrect) {
-      return "incorrectCredentials";
-    }
-
-    const token = generateToken(foundUser.id);
-
-    return token;
-  };
-}
-
-export default AuthService;
+export default authRoutingService;

@@ -12,6 +12,7 @@ const ErrorMessages: Record<ErrorsNames, string> = {
   incorrectToken: "The token is incorrect",
   incorrectCredentials: "Email or password are incorrect",
   serverError: "Ooops... Something went wrong",
+  
 };
 
 const Errors: Record<ErrorsNames, ErrorType> = Object.entries(

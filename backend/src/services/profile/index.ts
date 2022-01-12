@@ -1,47 +1,8 @@
-import { ObjectId } from "mongoose";
-import ProfileModel from "../../model/profile";
-import { Profile } from "../../model/profile/services/types";
-import { ErrorsNames } from "../../types/errors";
+import ProfileDBService from "./services/dbService";
+import ProfileRoutingService from "./services/routingService";
 
-class ProfileService {
-  getProfileInfo = async (user?: ObjectId): Promise<Profile | ErrorsNames> => {
-    const foundProfile = await ProfileModel.findOne({ user }, "-_id");
+const profileDbService = new ProfileDBService();
 
-    if (!foundProfile) {
-      return "profileNotExist";
-    }
+const profileRoutingService = new ProfileRoutingService(profileDbService);
 
-    return foundProfile;
-  };
-
-  createProfile = async (
-    profile: Profile,
-    user?: ObjectId
-  ): Promise<Profile | ErrorsNames> => {
-    const foundProfile = await ProfileModel.findOne({ user });
-
-    if (foundProfile) {
-      return "profileAlreadyExist";
-    }
-
-    const newProfile = new ProfileModel({
-      ...profile,
-      user,
-    });
-
-    return newProfile.save();
-  };
-
-  updateProfile = async (
-    profile: Profile,
-    user?: ObjectId
-  ): Promise<Profile | null> => {
-    const filter = { user };
-
-    await ProfileModel.findOneAndUpdate(filter, profile);
-
-    return ProfileModel.findOne(filter);
-  };
-}
-
-export default ProfileService;
+export default profileRoutingService;

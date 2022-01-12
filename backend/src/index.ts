@@ -1,6 +1,6 @@
 import exrpress, { json } from "express";
-import createDb from "./model/services/createDb";
 import rootRouter from "./api";
+import createDb from "./model/services/createDb";
 
 // Initiate Db and express App
 createDb();

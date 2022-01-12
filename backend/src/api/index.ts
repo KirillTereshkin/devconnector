@@ -2,7 +2,7 @@ import { Router } from "express";
 import authRouter from "./auth";
 import usersRouter from "./users";
 import profileRouter from "./profile";
-import { AppRoutes } from "../types/api";
+import { AppRoutes } from "../types/routes";
 
 const rootRouter = Router();
 
