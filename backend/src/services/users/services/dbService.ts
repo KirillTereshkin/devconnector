@@ -1,9 +1,9 @@
 import { hash } from "bcrypt";
-import { saltRounds } from "../../../helpers/constants";
-import { generateToken } from "../../../helpers/helpers";
+import { saltRounds } from "../../../helpers/utils/constants";
+import { generateToken } from "../../../helpers/utils/helpers";
 import UserModel from "../../../model/users";
-import User from "../../../model/users/services/types";
-import { ErrorsNames } from "../../../types/errors";
+import User from "../../../helpers/types/model/users";
+import { ErrorsNames } from "../../../helpers/types/utility/errors";
 
 class UsersDBService {
   registerUser = async (user: User): Promise<ErrorsNames | string> => {

@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
-import ModelNames from "../services/types";
-import { Profile } from "./services/types";
+import ModelNames from "../../helpers/types/model/modelCharacteristics";
+import { Profile } from "../../helpers/types/model/profile";
 
 const ProfileSchema = new Schema<Profile>({
   user: {

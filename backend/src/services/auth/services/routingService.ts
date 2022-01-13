@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Errors from "../../../helpers/errorMessages";
 import { errorResponseMiddleware } from "../../../helpers/middlewares/errorResponseMiddleware";
-import { RequestAuth } from "../../../types/utility";
+import { RequestAuth } from "../../../helpers/types/utility/utility";
+import Errors from "../../../helpers/utils/errorMessages";
 import AuthDBService from "./dbService";
 
 class AuthRoutingService {

@@ -1,9 +1,9 @@
 import { Response } from "express";
 import { ObjectId } from "mongoose";
-import Errors from "../../../helpers/errorMessages";
 import { errorResponseMiddleware } from "../../../helpers/middlewares/errorResponseMiddleware";
-import { Profile } from "../../../model/profile/services/types";
-import { RequestAuth } from "../../../types/utility";
+import { RequestAuth } from "../../../helpers/types/utility/utility";
+import Errors from "../../../helpers/utils/errorMessages";
+import { Profile } from "../../../helpers/types/model/profile";
 import ProfileDBService from "./dbService";
 
 class ProfileRoutingService {

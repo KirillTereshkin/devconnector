@@ -1,9 +1,9 @@
 import { compare } from "bcrypt";
 import { ObjectId } from "mongoose";
-import { generateToken } from "../../../helpers/helpers";
+import { generateToken } from "../../../helpers/utils/helpers";
 import UserModel from "../../../model/users";
-import User from "../../../model/users/services/types";
-import { ErrorsNames } from "../../../types/errors";
+import User from "../../../helpers/types/model/users";
+import { ErrorsNames } from "../../../helpers/types/utility/errors";
 
 class AuthDBService {
   getUserInfo = async (userId?: ObjectId): Promise<User | ErrorsNames> => {

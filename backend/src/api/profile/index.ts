@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authMiddleware } from "../../helpers/middlewares/authMiddleware";
 import profileRoutingService from "../../services/profile";
-import { createProfileValidator } from "../../validators/profile";
+import { createProfileValidator } from "../../helpers/validators/profile";
 
 const profileRouter = Router();
 

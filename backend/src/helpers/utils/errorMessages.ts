@@ -1,6 +1,5 @@
-/* eslint-disable no-param-reassign */
-import { ErrorsNames } from "../types/errors";
-import { ErrorType } from "../types/utility";
+import { ErrorsNames } from "../types/utility/errors";
+import { ErrorType } from "../types/utility/utility";
 import { createError } from "./helpers";
 
 const ErrorMessages: Record<ErrorsNames, string> = {
@@ -12,7 +11,6 @@ const ErrorMessages: Record<ErrorsNames, string> = {
   incorrectToken: "The token is incorrect",
   incorrectCredentials: "Email or password are incorrect",
   serverError: "Ooops... Something went wrong",
-  
 };
 
 const Errors: Record<ErrorsNames, ErrorType> = Object.entries(

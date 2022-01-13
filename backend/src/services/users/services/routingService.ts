@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
-import Errors from "../../../helpers/errorMessages";
 import { errorResponseMiddleware } from "../../../helpers/middlewares/errorResponseMiddleware";
-import User from "../../../model/users/services/types";
+import Errors from "../../../helpers/utils/errorMessages";
+import User from "../../../helpers/types/model/users";
 import UsersDBService from "./dbService";
 
 class UsersRoutingService {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUserValidator } from "../../validators/users";
+import { registerUserValidator } from "../../helpers/validators/users";
 import usersRoutingService from "../../services/users";
 
 const usersRouter = Router();
