@@ -8,6 +8,7 @@ const ErrorMessages: Record<ErrorsNames, string> = {
   userNotExist: "User doesn't exist",
   profileNotExist: "Profile doesn't exist",
   profileAlreadyExist: "Profile already exist",
+  profilesNotExist: "Profiles not exist",
   incorrectToken: "The token is incorrect",
   incorrectCredentials: "Email or password are incorrect",
   serverError: "Ooops... Something went wrong",

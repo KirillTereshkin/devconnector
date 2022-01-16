@@ -4,6 +4,7 @@ export type ErrorsNames =
   | "userNotExist"
   | "profileNotExist"
   | "profileAlreadyExist"
+  | "profilesNotExist"
   | "incorrectToken"
   | "incorrectCredentials"
   | "serverError";

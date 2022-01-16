@@ -1,3 +1,3 @@
-import main from "./loaders/express";
+import main from "./loaders";
 
 main();

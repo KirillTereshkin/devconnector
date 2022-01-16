@@ -30,4 +30,14 @@ profileRouter.put("/", authMiddleware, profileRoutingService.updateProfile);
 // @access          Private
 profileRouter.delete("/", authMiddleware, profileRoutingService.deleteProfile);
 
+// @route GET       api/profile/all
+// @description     Get all profiles
+// @access          Public
+profileRouter.get("/all", profileRoutingService.getAllProfiles);
+
+// @route GET       api/profile/:user
+// @description     Get profile by userId
+// @access          Public
+profileRouter.get("/:user", profileRoutingService.getProfileByUserId);
+
 export default profileRouter;

@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import { ObjectId } from "mongoose";
 import { errorResponseMiddleware } from "../../../helpers/middlewares/errorResponseMiddleware";
 import { RequestAuth } from "../../../helpers/types/utility/utility";
@@ -69,6 +69,39 @@ class ProfileRoutingService {
 
       res.json(deletedProfile);
     } catch (error) {
+      res.status(500).json(Errors.serverError);
+    }
+  };
+
+  getAllProfiles = async (_: Request, res: Response) => {
+    try {
+      const allProfiles = await this.dbService.getAllProfiles();
+
+      if (errorResponseMiddleware(allProfiles, res)) {
+        return;
+      }
+
+      res.json(allProfiles);
+    } catch (error) {
+      res.status(500).json(Errors.serverError);
+    }
+  };
+
+  getProfileByUserId = async (
+    req: Request<{ user: ObjectId }>,
+    res: Response
+  ) => {
+    try {
+      const { user } = req.params;
+
+      const profileByUserId = await this.dbService.getProfileByUserId(user);
+
+      if (errorResponseMiddleware(profileByUserId, res)) {
+        return;
+      }
+
+      res.json(profileByUserId);
+    } catch (e) {
       res.status(500).json(Errors.serverError);
     }
   };

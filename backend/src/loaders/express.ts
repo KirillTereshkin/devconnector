@@ -1,23 +1,27 @@
-import exrpress, { json } from "express";
-import rootRouter from "../api";
-import createDb from "./mongoose";
+import exrpress, { RequestHandler, Router } from "express";
 
-const main = () => {
-  // Initiate Db and express App
-  createDb();
-  const app = exrpress();
+const expressApp =
+  (
+    runDb: () => void,
+    middlwares: Array<RequestHandler>,
+    router: Router,
+    PORT = process.env.PORT || 4000
+  ) =>
+  () => {
+    // Initiate Db and express App
+    runDb();
 
-  // Add middleware
-  app.use(json());
+    const app = exrpress();
 
-  // Add routes
-  app.use("/", rootRouter);
+    // Add middlewares
+    app.use(middlwares);
 
-  // Start app
-  const PORT = process.env.PORT || 4000;
-  app.listen(PORT, () => {
-    console.log(`Port is runing on port: ${PORT}`);
-  });
-};
+    // Add routes
+    app.use("/", router);
 
-export default main;
+    app.listen(PORT, () => {
+      console.log(`Port is runing on port: ${PORT}`);
+    });
+  };
+
+export default expressApp;

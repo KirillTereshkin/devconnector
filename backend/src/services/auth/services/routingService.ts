@@ -21,9 +21,12 @@ class AuthRoutingService {
     }
   };
 
-  authUser = async (req: Request, res: Response) => {
+  authUser = async (
+    req: Request<{ email: string; password: string }>,
+    res: Response
+  ) => {
     try {
-      const { email, password }: { email: string; password: string } = req.body;
+      const { email, password } = req.body;
 
       const token = await this.dbService.authUser(email, password);
 

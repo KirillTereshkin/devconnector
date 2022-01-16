@@ -58,6 +58,38 @@ class ProfileDBService {
 
     return deletedProfile;
   };
+
+  getAllProfiles = async (): Promise<Profile[] | ErrorsNames> => {
+    const allProfiles = await ProfileModel.find().populate("user", {
+      name: true,
+      email: true,
+    });
+
+    if (!allProfiles) {
+      return "profilesNotExist";
+    }
+
+    return allProfiles;
+  };
+
+  getProfileByUserId = async (
+    user: ObjectId
+  ): Promise<Profile | ErrorsNames> => {
+    try {
+      const profileByUserId = await ProfileModel.findOne({ user }).populate(
+        "user",
+        { name: true, email: true }
+      );
+
+      if (!profileByUserId) {
+        return "profileNotExist";
+      }
+
+      return profileByUserId;
+    } catch (e) {
+      return "profileNotExist";
+    }
+  };
 }
 
 export default ProfileDBService;
