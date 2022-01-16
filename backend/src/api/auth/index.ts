@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { authMiddleware } from "../../helpers/middlewares/authMiddleware";
-import { authUserValidation } from "../../helpers/validators/auth";
-import authRoutingService from "../../services/auth";
+import { authMiddleware } from "@helpers/middlewares/authMiddleware";
+import { authUserValidation } from "@helpers/validators/auth";
+import authRoutingService from "@services/auth";
 
 const authRouter = Router();
 

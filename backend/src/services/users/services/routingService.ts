@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from "express";
-import User from "../../../helpers/types/model/users";
+import User from "@helpers/types/model/users";
 import UsersDBService from "./dbService";
 
 class UsersRoutingService {

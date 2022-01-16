@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { AppRoutes } from "@helpers/types/utility/routes";
+
 import authRouter from "./auth";
 import usersRouter from "./users";
 import profileRouter from "./profile";
-import { AppRoutes } from "../helpers/types/utility/routes";
 
 const rootRouter = Router();
 

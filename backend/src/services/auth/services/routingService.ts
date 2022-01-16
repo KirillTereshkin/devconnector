@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { RequestAuth } from "../../../helpers/types/utility/utility";
+import { RequestAuth } from "@helpers/types/utility/utility";
 import AuthDBService from "./dbService";
 
 class AuthRoutingService {
