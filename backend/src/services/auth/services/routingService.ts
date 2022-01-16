@@ -1,42 +1,37 @@
-import { Request, Response } from "express";
-import { errorResponseMiddleware } from "../../../helpers/middlewares/errorResponseMiddleware";
+import { NextFunction, Request, Response } from "express";
 import { RequestAuth } from "../../../helpers/types/utility/utility";
-import Errors from "../../../helpers/utils/errorMessages";
 import AuthDBService from "./dbService";
 
 class AuthRoutingService {
   constructor(private readonly dbService: AuthDBService) {}
 
-  getUserInfo = async ({ userId }: RequestAuth, res: Response) => {
+  getUserInfo = async (
+    { userId }: RequestAuth,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const user = await this.dbService.getUserInfo(userId);
 
-      if (errorResponseMiddleware(user, res)) {
-        return;
-      }
-
       res.json({ user });
     } catch (error) {
-      res.status(500).json(Errors.serverError);
+      next(error);
     }
   };
 
   authUser = async (
     req: Request<{ email: string; password: string }>,
-    res: Response
+    res: Response,
+    next: NextFunction
   ) => {
     try {
       const { email, password } = req.body;
 
       const token = await this.dbService.authUser(email, password);
 
-      if (errorResponseMiddleware(token, res)) {
-        return;
-      }
-
       res.json({ token });
     } catch (error) {
-      res.status(500).json(Errors.serverError);
+      next(error);
     }
   };
 }

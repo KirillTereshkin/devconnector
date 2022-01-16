@@ -1,14 +1,13 @@
 import { ObjectId } from "mongoose";
 import ProfileModel from "../../../model/profile";
 import { Profile } from "../../../helpers/types/model/profile";
-import { ErrorsNames } from "../../../helpers/types/utility/errors";
 
 class ProfileDBService {
-  getProfileInfo = async (user?: ObjectId): Promise<Profile | ErrorsNames> => {
+  getProfileInfo = async (user?: ObjectId): Promise<Profile> => {
     const foundProfile = await ProfileModel.findOne({ user });
 
     if (!foundProfile) {
-      return "profileNotExist";
+      throw Error("profileNotExist");
     }
 
     return foundProfile;
@@ -17,11 +16,11 @@ class ProfileDBService {
   createProfile = async (
     profile: Profile,
     user?: ObjectId
-  ): Promise<Profile | ErrorsNames> => {
+  ): Promise<Profile> => {
     const foundProfile = await ProfileModel.findOne({ user });
 
     if (foundProfile) {
-      return "profileAlreadyExist";
+      throw Error("profileAlreadyExist");
     }
 
     const newProfile = new ProfileModel({
@@ -35,7 +34,7 @@ class ProfileDBService {
   updateProfile = async (
     profile: Profile,
     user?: ObjectId
-  ): Promise<Profile | ErrorsNames> => {
+  ): Promise<Profile> => {
     const filter = { user };
 
     await ProfileModel.findOneAndUpdate(filter, profile);
@@ -43,38 +42,36 @@ class ProfileDBService {
     const updatedProfile = await ProfileModel.findOne(filter);
 
     if (!updatedProfile) {
-      return "profileNotExist";
+      throw Error("profileNotExist");
     }
 
     return updatedProfile;
   };
 
-  deleteProfile = async (user?: ObjectId): Promise<Profile | ErrorsNames> => {
+  deleteProfile = async (user?: ObjectId): Promise<Profile> => {
     const deletedProfile = await ProfileModel.findOneAndDelete({ user });
 
     if (!deletedProfile) {
-      return "profileNotExist";
+      throw Error("profileNotExist");
     }
 
     return deletedProfile;
   };
 
-  getAllProfiles = async (): Promise<Profile[] | ErrorsNames> => {
+  getAllProfiles = async (): Promise<Profile[]> => {
     const allProfiles = await ProfileModel.find().populate("user", {
       name: true,
       email: true,
     });
 
     if (!allProfiles) {
-      return "profilesNotExist";
+      throw Error("profilesNotExist");
     }
 
     return allProfiles;
   };
 
-  getProfileByUserId = async (
-    user: ObjectId
-  ): Promise<Profile | ErrorsNames> => {
+  getProfileByUserId = async (user: ObjectId): Promise<Profile> => {
     try {
       const profileByUserId = await ProfileModel.findOne({ user }).populate(
         "user",
@@ -82,12 +79,12 @@ class ProfileDBService {
       );
 
       if (!profileByUserId) {
-        return "profileNotExist";
+        throw Error("profileNotExist");
       }
 
       return profileByUserId;
-    } catch (e) {
-      return "profileNotExist";
+    } catch (error) {
+      throw Error("profileNotExist");
     }
   };
 }
