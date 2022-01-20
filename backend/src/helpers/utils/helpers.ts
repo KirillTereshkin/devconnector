@@ -1,7 +1,7 @@
 import { ValidationError } from "express-validator";
 import { sign, SignOptions } from "jsonwebtoken";
-import config from "@config/index";
-import { ErrorType } from "@helpers/types/utility/utility";
+import config from "../../config";
+import { ErrorType } from "../types/utility/utility";
 
 export const createError = (errors: string | ValidationError[]): ErrorType => {
   if (typeof errors === "string") {

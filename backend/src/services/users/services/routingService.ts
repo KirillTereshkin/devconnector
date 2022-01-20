@@ -1,21 +1,37 @@
 import { Response, Request, NextFunction } from "express";
-import User from "@helpers/types/model/users";
+import { RequestAuth } from "../../../helpers/types/utility/utility";
 import UsersDBService from "./dbService";
 
 class UsersRoutingService {
   constructor(private readonly dbService: UsersDBService) {}
 
-  registerUser = async (
-    req: Request,
+  getUserInfo = async (
+    { userId }: RequestAuth,
     res: Response,
     next: NextFunction
-  ): Promise<void> => {
+  ) => {
     try {
-      const user: User = req.body;
+      const user = await this.dbService.getUserInfo(userId);
 
-      const token = await this.dbService.registerUser(user);
+      res.json({ user });
+    } catch (error) {
+      next(error);
+    }
+  };
 
-      res.json({ token });
+  deleteUser = async (
+    { userId }: RequestAuth,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      if (!userId) {
+        throw Error();
+      }
+
+      const deletedUser = await this.dbService.deleteUser(userId);
+
+      res.json(deletedUser);
     } catch (error) {
       next(error);
     }

@@ -1,25 +1,25 @@
-import { hash } from "bcrypt";
-import { saltRounds } from "@helpers/utils/constants";
-import { generateToken } from "@helpers/utils/helpers";
-import UserModel from "@model/users";
-import User from "@helpers/types/model/users";
-import { ErrorsNames } from "@helpers/types/utility/errors";
+import { ObjectId } from "mongoose";
+import User from "../../../helpers/types/model/users";
+import { ErrorsNames } from "../../../helpers/types/utility/errors";
+import ProfileModel from "../../../model/profile";
+import UserModel from "../../../model/users";
 
 class UsersDBService {
-  registerUser = async (user: User): Promise<ErrorsNames | string> => {
-    const userFromDb = await UserModel.findOne({ email: user.email });
+  getUserInfo = async (userId?: ObjectId): Promise<User | ErrorsNames> => {
+    const user = await UserModel.findById(userId).select("-password");
 
-    if (userFromDb) {
-      return "userAlreadyExist";
+    if (!user) {
+      throw Error("userNotExist");
     }
 
-    const password = await hash(user.password, saltRounds);
+    return user;
+  };
 
-    const newUser = new UserModel({ ...user, password });
+  deleteUser = async (user: ObjectId) => {
+    const deletedUser = await UserModel.findByIdAndDelete(user);
+    await ProfileModel.find({ user }).deleteMany();
 
-    const { id } = await newUser.save();
-
-    return generateToken(id);
+    return deletedUser;
   };
 }
 

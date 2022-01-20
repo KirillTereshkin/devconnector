@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { ErrorsNames } from "@helpers/types/utility/errors";
-import Errors from "@helpers/utils/errorMessages";
+import { ErrorsNames } from "../types/utility/errors";
+import Errors from "../utils/errorMessages";
 
 export const errorApiBoundary = async (
   { message }: Error,

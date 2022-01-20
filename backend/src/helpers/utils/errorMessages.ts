@@ -1,5 +1,5 @@
-import { ErrorsNames } from "@helpers/types/utility/errors";
-import { ErrorType } from "@helpers/types/utility/utility";
+import { ErrorsNames } from "../types/utility/errors";
+import { ErrorType } from "../types/utility/utility";
 import { createError } from "./helpers";
 
 const ErrorMessages: Record<ErrorsNames, string> = {

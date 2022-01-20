@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { authMiddleware } from "@helpers/middlewares/authMiddleware";
-import profileRoutingService from "@services/profile";
-import { createProfileValidator } from "@helpers/validators/profile";
+import { authMiddleware } from "../../helpers/middlewares/authMiddleware";
+import { createProfileValidator } from "../../helpers/validators/profile";
+import profileRoutingService from "../../services/profile";
 
 const profileRouter = Router();
 
@@ -9,6 +9,16 @@ const profileRouter = Router();
 // @description     Get profile info
 // @access          Private
 profileRouter.get("/me", authMiddleware, profileRoutingService.getProfileInfo);
+
+// @route GET       api/profile/all
+// @description     Get all profiles
+// @access          Public
+profileRouter.get("/all", profileRoutingService.getAllProfiles);
+
+// @route GET       api/profile/:user
+// @description     Get profile by userId
+// @access          Public
+profileRouter.get("/:user", profileRoutingService.getProfileByUserId);
 
 // @route POST      api/profile/
 // @description     Create profile
@@ -29,15 +39,5 @@ profileRouter.put("/", authMiddleware, profileRoutingService.updateProfile);
 // @description     Delete profile
 // @access          Private
 profileRouter.delete("/", authMiddleware, profileRoutingService.deleteProfile);
-
-// @route GET       api/profile/all
-// @description     Get all profiles
-// @access          Public
-profileRouter.get("/all", profileRoutingService.getAllProfiles);
-
-// @route GET       api/profile/:user
-// @description     Get profile by userId
-// @access          Public
-profileRouter.get("/:user", profileRoutingService.getProfileByUserId);
 
 export default profileRouter;

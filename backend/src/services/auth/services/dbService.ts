@@ -1,19 +1,26 @@
-import { compare } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import { ObjectId } from "mongoose";
-import { generateToken } from "@helpers/utils/helpers";
-import UserModel from "@model/users";
-import User from "@helpers/types/model/users";
-import { ErrorsNames } from "@helpers/types/utility/errors";
+import User from "../../../helpers/types/model/users";
+import { ErrorsNames } from "../../../helpers/types/utility/errors";
+import { saltRounds } from "../../../helpers/utils/constants";
+import { generateToken } from "../../../helpers/utils/helpers";
+import UserModel from "../../../model/users";
 
 class AuthDBService {
-  getUserInfo = async (userId?: ObjectId): Promise<User | ErrorsNames> => {
-    const user = await UserModel.findById(userId).select("-password");
+  registerUser = async (user: User): Promise<ErrorsNames | string> => {
+    const userFromDb = await UserModel.findOne({ email: user.email });
 
-    if (!user) {
-      return "userNotExist";
+    if (userFromDb) {
+      throw Error("userAlreadyExist");
     }
 
-    return user;
+    const password = await hash(user.password, saltRounds);
+
+    const newUser = new UserModel({ ...user, password });
+
+    const { id } = await newUser.save();
+
+    return generateToken(id);
   };
 
   authUser = async (
@@ -22,13 +29,13 @@ class AuthDBService {
   ): Promise<string | ErrorsNames> => {
     const foundUser = await UserModel.findOne({ email });
     if (!foundUser) {
-      return "incorrectCredentials";
+      throw Error("incorrectCredentials");
     }
 
     const isPasswordCorrect = await compare(password, foundUser.password);
 
     if (!isPasswordCorrect) {
-      return "incorrectCredentials";
+      throw Error("incorrectCredentials");
     }
 
     const token = generateToken(foundUser.id);

@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
-import ModelNames from "@helpers/types/model/modelCharacteristics";
-import User from "@helpers/types/model/users";
+import ModelNames from "../../helpers/types/model/modelCharacteristics";
+import User from "../../helpers/types/model/users";
 
 const UsersSchema = new Schema<User>({
   name: {

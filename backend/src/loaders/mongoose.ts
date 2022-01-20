@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import mongoose from "mongoose";
-import config from "@config/index";
+import config from "../config";
 
 const createDb = async () => {
   try {

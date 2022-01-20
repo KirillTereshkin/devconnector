@@ -1,7 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { ObjectId } from "mongoose";
-import { RequestAuth } from "@helpers/types/utility/utility";
-import { Profile } from "@helpers/types/model/profile";
+import { Profile } from "../../../helpers/types/model/profile";
+import { RequestAuth } from "../../../helpers/types/utility/utility";
 import ProfileDBService from "./dbService";
 
 class ProfileRoutingService {

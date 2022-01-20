@@ -1,18 +1,20 @@
 import { Router } from "express";
-import { authMiddleware } from "@helpers/middlewares/authMiddleware";
-import { authUserValidation } from "@helpers/validators/auth";
-import authRoutingService from "@services/auth";
+import {
+  authUserValidation,
+  registerUserValidator,
+} from "../../helpers/validators/auth";
+import authRoutingService from "../../services/auth";
 
 const authRouter = Router();
-
-// @route GET       api/auth/info
-// @description     Get user info
-// @access          Private
-authRouter.get("/info", authMiddleware, authRoutingService.getUserInfo);
 
 // @route POST      api/auth/
 // @description     Auth user
 // @access          Public
 authRouter.post("/", ...authUserValidation, authRoutingService.authUser);
+
+// @route POST      api/auth/
+// @description     Register user
+// @access          Public
+authRouter.post("/", ...registerUserValidator, authRoutingService.registerUser);
 
 export default authRouter;

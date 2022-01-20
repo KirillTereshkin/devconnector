@@ -1,16 +1,17 @@
 import { Router } from "express";
-import { registerUserValidator } from "@helpers/validators/users";
-import usersRoutingService from "@services/users";
+import { authMiddleware } from "../../helpers/middlewares/authMiddleware";
+import usersRoutingService from "../../services/users";
 
 const usersRouter = Router();
 
-// @route POST       api/users
-// @description     Register user
-// @access          Public
-usersRouter.post(
-  "/",
-  ...registerUserValidator,
-  usersRoutingService.registerUser
-);
+// @route GET       api/users/info
+// @description     Get user info
+// @access          Private
+usersRouter.get("/info", authMiddleware, usersRoutingService.getUserInfo);
+
+// @route DELETE    api/users
+// @description     Delete user and all connected data - profiles and posts
+// @access          Private
+usersRouter.delete("/", authMiddleware, usersRoutingService.deleteUser);
 
 export default usersRouter;

@@ -1,19 +1,22 @@
 import { NextFunction, Request, Response } from "express";
-import { RequestAuth } from "@helpers/types/utility/utility";
+import User from "../../../helpers/types/model/users";
+import { RequestAuth } from "../../../helpers/types/utility/utility";
 import AuthDBService from "./dbService";
 
 class AuthRoutingService {
   constructor(private readonly dbService: AuthDBService) {}
 
-  getUserInfo = async (
-    { userId }: RequestAuth,
+  registerUser = async (
+    req: Request,
     res: Response,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
-      const user = await this.dbService.getUserInfo(userId);
+      const user: User = req.body;
 
-      res.json({ user });
+      const token = await this.dbService.registerUser(user);
+
+      res.json({ token });
     } catch (error) {
       next(error);
     }

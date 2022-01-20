@@ -1,6 +1,6 @@
 import { json } from "express";
-import rootRouter from "@api/index";
-import { errorApiBoundary } from "@helpers/middlewares/errorApiBoundary";
+import rootRouter from "../api";
+import { errorApiBoundary } from "../helpers/middlewares/errorApiBoundary";
 import expressApp from "./express";
 import createDb from "./mongoose";
 
