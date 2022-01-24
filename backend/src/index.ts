@@ -1,5 +1,3 @@
-import "module-alias/register";
+import app from "./loaders";
 
-import main from "./loaders";
-
-main();
+app.start();

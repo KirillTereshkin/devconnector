@@ -1,5 +1,4 @@
-import { compare, hash } from "bcrypt";
-import { ObjectId } from "mongoose";
+import { compare, hash } from "bcryptjs";
 import User from "../../../helpers/types/model/users";
 import { ErrorsNames } from "../../../helpers/types/utility/errors";
 import { saltRounds } from "../../../helpers/utils/constants";

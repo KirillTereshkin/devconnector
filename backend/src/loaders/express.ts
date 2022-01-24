@@ -1,32 +1,27 @@
-import exrpress, { ErrorRequestHandler, RequestHandler, Router } from "express";
+import express, { ErrorRequestHandler, RequestHandler, Router } from "express";
 
-const expressApp =
-  (
-    runDb: () => void,
-    middlwares: Array<RequestHandler>,
-    router: Router,
-    PORT: string | number = 4000,
-    errorBoundariesAndLoggers: Array<ErrorRequestHandler> = []
-  ) =>
-  () => {
-    // Initiate Db and express App
+export default class App {
+  private readonly app = express();
+
+  constructor(
+    private readonly port: number | string,
+
+    runDb: () => void = () => {},
+    middlewares: RequestHandler[] = [],
+    router: Router = Router(),
+    loggers: ErrorRequestHandler[] = []
+  ) {
     runDb();
 
-    const app = exrpress();
+    this.app.use(middlewares);
+    this.app.use("/", router);
+    this.app.use(loggers);
+  }
 
-    // Add middlewares
-    app.use(middlwares);
-
-    // Add routes
-    app.use("/", router);
-
-    // Add loggers or error boundaries
-    app.use(errorBoundariesAndLoggers);
-
-    app.listen(PORT, () => {
+  start = () => {
+    this.app.listen(this.port, () => {
       // eslint-disable-next-line no-console
-      console.log(`Port is runing on port: ${PORT}`);
+      console.log(`Port is runing on port: ${this.port}`);
     });
   };
-
-export default expressApp;
+}

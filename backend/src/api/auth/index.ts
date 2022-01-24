@@ -7,14 +7,18 @@ import authRoutingService from "../../services/auth";
 
 const authRouter = Router();
 
-// @route POST      api/auth/
-// @description     Auth user
+// @route POST      api/auth/login
+// @description     Login user
 // @access          Public
-authRouter.post("/", ...authUserValidation, authRoutingService.authUser);
+authRouter.post("/login", ...authUserValidation, authRoutingService.authUser);
 
-// @route POST      api/auth/
+// @route POST      api/auth/register
 // @description     Register user
 // @access          Public
-authRouter.post("/", ...registerUserValidator, authRoutingService.registerUser);
+authRouter.post(
+  "/register",
+  ...registerUserValidator,
+  authRoutingService.registerUser
+);
 
 export default authRouter;
