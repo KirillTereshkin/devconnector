@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authMiddleware } from "../../helpers/middlewares/authMiddleware";
-import usersRoutingService from "../../services/users";
+import { authMiddleware } from "@helpers/middlewares/authMiddleware";
+import usersRoutingService from "@services/users";
 
 const usersRouter = Router();
 

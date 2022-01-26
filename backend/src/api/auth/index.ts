@@ -2,8 +2,8 @@ import { Router } from "express";
 import {
   authUserValidation,
   registerUserValidator,
-} from "../../helpers/validators/auth";
-import authRoutingService from "../../services/auth";
+} from "@helpers/validators/auth";
+import authRoutingService from "@services/auth";
 
 const authRouter = Router();
 

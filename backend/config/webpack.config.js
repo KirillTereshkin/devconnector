@@ -25,11 +25,20 @@ module.exports = {
 
   resolve: {
     extensions: [".ts", ".js"],
+
+    alias: {
+      "@api": resolve(__dirname, "../src/api/"),
+      "@config": resolve(__dirname, "../src/config/"),
+      "@helpers": resolve(__dirname, "../src/helpers/"),
+      "@loaders": resolve(__dirname, "../src/loaders/"),
+      "@model": resolve(__dirname, "../src/model/"),
+      "@services": resolve(__dirname, "../src/services/"),
+    },
   },
 
   output: {
     filename: "index.js",
-    path: resolve(__dirname, "build"),
+    path: resolve(__dirname, "../build"),
   },
 
   plugins: [new ProgressPlugin()],

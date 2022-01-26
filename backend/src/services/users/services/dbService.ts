@@ -1,8 +1,8 @@
 import { ObjectId } from "mongoose";
-import User from "../../../helpers/types/model/users";
-import { ErrorsNames } from "../../../helpers/types/utility/errors";
-import ProfileModel from "../../../model/profile";
-import UserModel from "../../../model/users";
+import User from "@helpers/types/model/users";
+import { ErrorsNames } from "@helpers/types/utility/errors";
+import ProfileModel from "@model/profile";
+import UserModel from "@model/users";
 
 class UsersDBService {
   getUserInfo = async (userId?: ObjectId): Promise<User | ErrorsNames> => {

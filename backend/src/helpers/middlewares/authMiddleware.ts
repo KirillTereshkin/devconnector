@@ -1,9 +1,9 @@
 import { NextFunction, Response } from "express";
 import { verify } from "jsonwebtoken";
 import { ObjectId } from "mongoose";
-import config from "../../config";
-import { RequestAuth } from "../types/utility/utility";
-import Errors from "../utils/errorMessages";
+import config from "@config/index";
+import { RequestAuth } from "@helpers/types/utility/utility";
+import Errors from "@helpers/utils/errorMessages";
 
 export const authMiddleware = (
   req: RequestAuth,

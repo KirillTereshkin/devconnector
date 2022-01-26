@@ -1,9 +1,9 @@
 import { compare, hash } from "bcryptjs";
-import User from "../../../helpers/types/model/users";
-import { ErrorsNames } from "../../../helpers/types/utility/errors";
-import { saltRounds } from "../../../helpers/utils/constants";
-import { generateToken } from "../../../helpers/utils/helpers";
-import UserModel from "../../../model/users";
+import User from "@helpers/types/model/users";
+import { ErrorsNames } from "@helpers/types/utility/errors";
+import { saltRounds } from "@helpers/utils/constants";
+import { generateToken } from "@helpers/utils/helpers";
+import UserModel from "@model/users";
 
 class AuthDBService {
   registerUser = async (user: User): Promise<ErrorsNames | string> => {

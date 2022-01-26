@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
-import { Profile } from "../../../helpers/types/model/profile";
-import ProfileModel from "../../../model/profile";
+import { Profile } from "@helpers/types/model/profile";
+import ProfileModel from "@model/profile";
 
 class ProfileDBService {
   getProfileInfo = async (user?: ObjectId): Promise<Profile> => {
